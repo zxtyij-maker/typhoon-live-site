@@ -1,0 +1,56 @@
+name: Update typhoon data and deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout site source
+        uses: actions/checkout@v4
+      - name: Test data normalization
+        run: node --test tests/normalize.test.mjs
+      - name: Restore last published snapshot when available
+        run: |
+          mkdir -p data
+          curl --fail --silent --show-error --location --max-time 20 --output data/previous.json https://zxtyij-maker.github.io/typhoon-live-site/data/live.json && mv data/previous.json data/live.json || true
+      - name: Fetch official Zhejiang typhoon data
+        run: node scripts/fetch-data.mjs
+      - name: Build public files only
+        run: node scripts/build-site.mjs
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+          retention-days: 1
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+      - name: Report data availability
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync,appendFileSync} from 'node:fs';
+          const d=JSON.parse(readFileSync('data/live.json','utf8'));
+          appendFileSync(process.env.GITHUB_STEP_SUMMARY,`## Data snapshot\n- Source: Zhejiang official typhoon system\n- Fetch attempt: ${d.fetchedAt}\n- Last successful fetch: ${d.lastSuccessfulFetchAt || 'none'}\n- Status: ${d.status}\n- Active records shown: ${d.storms.length}\n`);
+          if(d.status!=='ok') throw new Error('Source refresh failed. The deployed page explicitly marks unavailable or stale data.');
+          NODE

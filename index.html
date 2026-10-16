@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102f38">
+  <meta name="description" content="观风台风信息：浙江省台风路径实时发布系统公开数据，每15分钟计划抓取并发布，提供实况、历史路径和机构预报。">
+  <title>观风 · 台风实况与路径</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="data/live.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <svg class="icon-library" aria-hidden="true"><defs>
+    <symbol id="i-storm" viewBox="0 0 24 24"><path d="M20 4c-6-2-12 0-14 5-3 7 7 13 12 7 4-5-3-11-7-7-3 3 1 7 4 4M4 20c6 2 12 0 14-5"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="m5 19 14-14M5 5h14v14"/></symbol>
+    <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 8h12a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h5a3 3 0 1 1-3 3"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m12 3 10 18H2L12 3Z"/><path d="M12 9v5m0 3v.2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/></symbol>
+  </defs></svg>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="#main" aria-label="观风首页"><span class="brand-mark"><svg><use href="#i-storm"/></svg></span><span>观风<span class="brand-en">WINDWATCH</span></span></a>
+    <nav aria-label="主导航"><a class="nav-active" href="#overview">动态总览</a><a href="#path-section">台风路径</a><a href="#warning-section">预警信息</a></nav>
+    <span class="header-status"><span class="status-dot" id="header-dot"></span><span id="header-state">正在读取数据</span></span>
+  </div></header>
+  <div class="demo-banner live-banner" role="status" id="data-banner"><svg class="icon"><use href="#i-clock"/></svg><strong id="data-state">正在载入官方数据快照</strong><span id="data-state-note">本站为独立信息展示页面，非官方发布系统。</span><a href="https://typhoon.slt.zj.gov.cn/" target="_blank" rel="noopener noreferrer">浙江官方系统 ↗</a></div>
+  <main id="main" tabindex="-1">
+    <section class="page-heading" id="overview"><div><p class="eyebrow">COASTAL WEATHER OBSERVATORY <span>沿海天气观察</span></p><h1>台风动态总览<span class="title-dot">.</span></h1><p class="heading-description">实况、路径与机构预报，来源和时间清晰可查。</p></div><div class="heading-actions"><div class="scenario-clock"><svg class="icon"><use href="#i-clock"/></svg><span>最近成功抓取 · 北京时间<strong id="fetched-time">读取中</strong></span></div><button class="button button-light" id="refresh-data"><svg class="icon"><use href="#i-reset"/></svg>检查更新</button></div></section>
+    <div class="storm-toolbar"><div class="storm-selector" id="storm-selector" role="group" aria-label="选择活跃台风"></div><span class="toolbar-note" id="storm-count">正在确认活跃台风</span></div>
+    <div class="record-status" id="record-status" role="status">数据加载后，将在这里显示观测时间和数据状态。</div>
+    <section class="stats-grid" aria-label="台风实况数据" aria-live="polite" aria-atomic="true">
+      <article class="stat-card"><div class="stat-label">台风名称 <svg class="icon"><use href="#i-storm"/></svg></div><div class="stat-value"><span id="storm-name">—</span><span class="value-unit" id="storm-english"></span></div><div class="stat-footer"><span class="intensity-tag" id="storm-intensity">待载入</span><span id="storm-number"></span></div></article>
+      <article class="stat-card"><div class="stat-label">中心位置 <svg class="icon"><use href="#i-pin"/></svg></div><div class="stat-value coordinates" id="storm-coordinates">—</div><div class="stat-footer" id="position-note">以来源最新观测记录为准</div></article>
+      <article class="stat-card"><div class="stat-label">移动趋势 <svg class="icon"><use href="#i-arrow"/></svg></div><div class="stat-value"><span id="storm-direction">—</span><span class="direction-arrow"></span></div><div class="stat-footer">移动速度 <strong id="storm-speed">—</strong></div></article>
+      <article class="stat-card wind-card"><div class="stat-label">中心附近最大风力 <svg class="icon"><use href="#i-wind"/></svg></div><div class="stat-value"><span id="storm-force">—</span><span class="value-unit">级</span><span class="wind-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div><div class="stat-footer"><strong id="storm-wind">—</strong><span>中心气压 <span id="storm-pressure">—</span></span></div></article>
+    </section>
+    <div class="dashboard-grid">
+      <section class="panel map-panel" id="path-section" aria-labelledby="path-title">
+        <div class="panel-heading"><div><p class="section-index">01 / TRACK</p><h2 id="path-title">真实路径 · 经纬度图</h2></div><a class="soft-tag" href="https://typhoon.slt.zj.gov.cn/" target="_blank" rel="noopener noreferrer">查看官方地图 ↗</a></div>
+        <div class="map-tools"><div class="map-legend"><span><i class="legend-line"></i>历史实况</span><span><i class="legend-line forecast-line"></i>机构预报</span><span><i class="legend-center"></i>最新观测</span></div><label class="forecast-switch"><input id="show-forecast" type="checkbox" checked><span>显示预报路径</span></label></div>
+        <div class="forecast-controls"><label for="forecast-agency">预报机构</label><select id="forecast-agency" aria-label="选择预报机构"><option value="">待载入</option></select><span id="forecast-issued">预报时间待载入</span></div>
+        <div class="map-stage"><svg id="track-map" viewBox="0 0 1000 590" role="group" aria-labelledby="map-title map-description"><title id="map-title">按真实经纬度绘制的台风路径图</title><desc id="map-description">经纬度坐标图，不含地理底图。实线为历史实况，虚线为所选机构预报；点击路径点可查看时间、位置和强度。</desc><defs><radialGradient id="sea"><stop stop-color="#f4fbfc"/><stop offset="1" stop-color="#dfedf0"/></radialGradient></defs><rect width="1000" height="590" fill="url(#sea)"/><g id="coordinate-grid"></g><g id="track-drawing"></g><text x="500" y="550" text-anchor="middle" class="map-small-text">经纬度坐标图 · 不含地理底图</text></svg><div class="map-caption"><span class="status-dot"></span><span>点击或用键盘选择路径点</span></div></div>
+        <div class="point-readout" aria-live="polite" aria-atomic="true"><span class="point-type" id="point-type">等待数据</span><strong id="point-time">—</strong><span id="point-location">—</span><span id="point-wind">—</span></div>
+        <p class="map-footnote">坐标按浙江官方系统公开记录绘制；虚线为预报，可能调整。此图不表示风圈、危险范围或线外安全区。</p>
+        <details class="track-table-details"><summary>查看路径文字表格</summary><div class="table-scroll"><table><caption class="sr-only">路径记录与预报点（北京时间）</caption><thead><tr><th scope="col">类型</th><th scope="col">时间</th><th scope="col">中心位置</th><th scope="col">最大风力</th></tr></thead><tbody id="track-table"></tbody></table></div></details>
+      </section>
+      <aside class="warning-column" id="warning-section" aria-labelledby="warning-title">
+        <section class="panel warning-panel"><div class="panel-heading"><div><p class="section-index">02 / ALERT</p><h2 id="warning-title">地区预警信息</h2></div><svg class="icon"><use href="#i-alert"/></svg></div><div class="alert-card pending-alert"><div class="alert-heading"><svg class="icon"><use href="#i-alert"/></svg><div><h3>地区预警暂未接入</h3><small>LOCAL WARNINGS NOT CONNECTED</small></div></div><p class="alert-description">当前接入的是台风实况与路径记录，无法确认您所在地区的生效预警。未接入不等于无预警。</p><div class="alert-meta">请查阅当地气象台发布的完整预警，关注适用区域、发布机构和有效时间。</div></div><a class="button alert-detail-button" href="https://www.nmc.cn/publish/alarm.html" target="_blank" rel="noopener noreferrer">前往中央气象台查询 ↗</a><p class="warning-note">本站不会从中心风力、距离或路径接口的标志字段推断地区预警。</p></section>
+        <section class="observation-note"><span class="note-icon">i</span><div><h3>中心风力 ≠ 当地风力</h3><p>中心风力描述台风自身强度。当地天气影响和防御安排，请结合当地气象台及政府最新通知。</p></div></section>
+        <section class="panel source-summary"><p class="section-index">SOURCE BULLETIN</p><h3>来源位置与趋势说明</h3><p id="source-position">等待来源数据。</p><p id="source-conclusion"></p><a id="source-record" href="https://typhoon.slt.zj.gov.cn/" target="_blank" rel="noopener noreferrer">查看公开原始记录 ↗</a></section>
+      </aside>
+    </div>
+    <section class="bottom-grid"><article class="panel levels-panel"><div class="panel-heading"><div><p class="section-index">03 / READING THE DATA</p><h2>实况与预报分开阅读</h2></div><span class="soft-tag">保留来源口径</span></div><p class="secondary-text live-note">实线表示已经发布的观测记录，虚线表示所选机构在特定时间发布的未来路径。各机构风速统计口径可能不同，本站保留原数据，不混算或生成登陆结论。</p></article><article class="panel data-panel" id="data-notes"><div class="panel-heading"><div><p class="section-index">04 / DATA NOTES</p><h2>数据来源与更新</h2></div><span class="demo-outline">PUBLIC DATA</span></div><p>数据来自浙江省台风路径实时发布系统。GitHub Actions 计划每 15 分钟抓取并发布；任务可能排队或失败，以上方实际时间为准。</p><div class="data-note-footer"><a class="data-source" href="https://typhoon.slt.zj.gov.cn/" target="_blank" rel="noopener noreferrer">来源：浙江省水利厅 ↗</a><button class="text-button" id="about-data">查看说明 ↗</button></div></article></section>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div><noscript><p class="noscript-note">此页面需要启用 JavaScript。您也可以直接访问浙江省台风路径实时发布系统查看官方信息。</p></noscript>
+  </main>
+  <footer class="site-footer"><span><strong>观风</strong> WINDWATCH <span class="footer-slash">/</span> 独立台风信息展示</span><span>数据来源：浙江省水利厅 · 请以官方最新发布为准</span></footer>
+  <dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><span class="demo-outline">DATA PROVENANCE</span><button class="close-button" id="close-dialog" aria-label="关闭详情">×</button></div><h2 id="dialog-title">数据与更新说明</h2><div id="dialog-body"></div><button class="button dialog-confirm" id="confirm-dialog">知道了</button></dialog>
+</body></html>
