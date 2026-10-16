@@ -51,7 +51,7 @@ export function normalizeStorm(raw, summary, now = new Date()) {
   }).filter((forecast) => forecast.points.length);
   return {
     id: String(raw.tfid), name: String(raw.name || summary.name || '未命名'),
-    english: String(raw.enname || summary.enname || ''), active: String(summary.isactive) === '1',
+    english: String(raw.enname || summary.enname || ''), active: String(raw.isactive) === '1',
     sourceUrl: `${SOURCE.apiBase}/TyphoonInfo/${raw.tfid}`,
     referencePosition: String(latest.raw.ckposition || '').trim() || null,
     sourceConclusion: String(latest.raw.jl || '').trim() || null,

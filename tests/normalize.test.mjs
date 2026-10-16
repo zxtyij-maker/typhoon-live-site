@@ -19,6 +19,7 @@ test('actual official source sample: units, times, agency identity and missing p
   assert.ok(storm.forecasts.every(f=>f.points.every(p=>p.time>storm.latest.time)));
   assert.equal(storm.forecasts.find(f=>f.agency==='美国').points[0].pressure,null);
   assert.ok(!('warnlevel' in storm));
+  assert.equal(normalizeStorm({...raw,isactive:'0'},summary,now).active,false);
 });
 test('invalid coordinates, empty observations, ID mismatch and future observations are rejected',()=>{
   assert.throws(()=>normalizeStorm({...raw,tfid:'wrong'},summary,now));

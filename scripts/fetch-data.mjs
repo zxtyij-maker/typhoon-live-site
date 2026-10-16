@@ -34,7 +34,8 @@ try {
   const storms = [];
   for (const item of active) {
     const raw = await getJSON(`${SOURCE.apiBase}/TyphoonInfo/${item.tfid}`);
-    storms.push(normalizeStorm(Array.isArray(raw) ? raw[0] : raw, item, now));
+    const storm = normalizeStorm(Array.isArray(raw) ? raw[0] : raw, item, now);
+    if (storm.active) storms.push(storm);
   }
   snapshot = {schemaVersion:1, status:'ok', fetchedAt:now.toISOString(), lastSuccessfulFetchAt:now.toISOString(), source:SOURCE,
     queriedUrls:attempts, units:{wind:'m/s',moveSpeed:'km/h',pressure:'hPa',coordinates:'degrees'}, warnings:{status:'not-connected'}, storms};
