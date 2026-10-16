@@ -83,7 +83,8 @@
       for(const id of ['storm-name','storm-coordinates','storm-direction','storm-speed','storm-force','storm-wind','storm-pressure'])$(id).textContent='—';
       $('storm-intensity').textContent=data?.status==='ok'?'当前无活跃台风':'数据暂不可用';$('storm-english').textContent='';$('storm-number').textContent='';
       $('record-status').textContent=data?.status==='ok'?'官方列表当前未返回活跃台风。此状态不等于没有恶劣天气或地区预警。':'无法确认当前活跃台风，请前往官方系统查询。';
-      $('source-position').textContent='当前没有可展示的台风记录。';$('source-conclusion').textContent='';$('forecast-agency').replaceChildren(new Option('暂无预报',''));$('forecast-issued').textContent='';$('show-forecast').disabled=true;renderMap();status();return;
+      $('source-position').textContent='当前没有可展示的台风记录。';$('source-conclusion').textContent='';$('source-record').href='https://typhoon.slt.zj.gov.cn/';$('forecast-agency').replaceChildren(new Option('暂无预报',''));$('forecast-agency').disabled=true;$('forecast-issued').textContent='';$('show-forecast').disabled=true;
+      $('point-type').textContent='暂无路径';for(const id of ['point-time','point-location','point-wind'])$(id).textContent='—';renderMap();status();return;
     }
     const latest=current.latest;
     $('storm-name').textContent=current.name;$('storm-english').textContent=current.english;$('storm-number').textContent=current.id;$('storm-intensity').textContent=latest.intensity||'来源未提供';$('storm-coordinates').textContent=coords(latest);$('position-note').textContent='最新中心位置 · 经纬度';

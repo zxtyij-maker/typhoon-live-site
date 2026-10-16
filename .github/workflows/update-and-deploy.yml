@@ -27,7 +27,7 @@ jobs:
       - name: Checkout site source
         uses: actions/checkout@v4
       - name: Test data normalization
-        run: node --test tests/normalize.test.mjs
+        run: node --test tests/normalize.test.mjs tests/fetch.test.mjs
       - name: Restore last published snapshot when available
         run: |
           mkdir -p data

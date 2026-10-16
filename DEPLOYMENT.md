@@ -43,7 +43,7 @@ GitHub Actions 调度可能延迟或漏排，不是精确的 15 分钟时钟。�
 ## 本地命令
 
 ```text
-node --test tests/normalize.test.mjs
+node --test tests/normalize.test.mjs tests/fetch.test.mjs
 node scripts/fetch-data.mjs
 node scripts/build-site.mjs
 node preview.mjs

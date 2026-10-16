@@ -19,7 +19,7 @@ Actions 每 15 分钟计划抓取一次并发布 Pages；平台调度可能延�
 无需安装第三方依赖，使用 Node.js 22 或更高版本。
 
 ```text
-node --test tests/normalize.test.mjs
+node --test tests/normalize.test.mjs tests/fetch.test.mjs
 node scripts/fetch-data.mjs
 node scripts/build-site.mjs
 node preview.mjs
