@@ -2,10 +2,11 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#102f38">
+  <meta name="theme-color" content="#f5f8f3">
   <meta name="description" content="观风台风信息：浙江省台风路径实时发布系统公开数据，每15分钟计划抓取并发布，提供实况、历史路径和机构预报。">
   <title>观风 · 台风实况与路径</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="coastal.css">
   <script defer src="data/live.js"></script><script defer src="app.js"></script>
 </head>
 <body>
@@ -21,12 +22,55 @@
   </defs></svg>
   <header class="site-header"><div class="header-inner">
     <a class="brand" href="#main" aria-label="观风首页"><span class="brand-mark"><svg><use href="#i-storm"/></svg></span><span>观风<span class="brand-en">WINDWATCH</span></span></a>
-    <nav aria-label="主导航"><a class="nav-active" href="#overview">动态总览</a><a href="#path-section">台风路径</a><a href="#warning-section">预警信息</a></nav>
+    <nav aria-label="主导航"><a class="nav-active" href="#overview">台风实况</a><a href="#path-section">路径追踪</a><a href="#warning-section">预警信息</a></nav>
     <span class="header-status"><span class="status-dot" id="header-dot"></span><span id="header-state">正在读取数据</span></span>
   </div></header>
-  <div class="demo-banner live-banner" role="status" id="data-banner"><svg class="icon"><use href="#i-clock"/></svg><strong id="data-state">正在载入官方数据快照</strong><span id="data-state-note">本站为独立信息展示页面，非官方发布系统。</span><a href="https://typhoon.slt.zj.gov.cn/" target="_blank" rel="noopener noreferrer">浙江官方系统 ↗</a></div>
   <main id="main" tabindex="-1">
-    <section class="page-heading" id="overview"><div><p class="eyebrow">COASTAL WEATHER OBSERVATORY <span>沿海天气观察</span></p><h1>台风动态总览<span class="title-dot">.</span></h1><p class="heading-description">实况、路径与机构预报，来源和时间清晰可查。</p></div><div class="heading-actions"><div class="scenario-clock"><svg class="icon"><use href="#i-clock"/></svg><span>最近成功抓取 · 北京时间<strong id="fetched-time">读取中</strong></span></div><button class="button button-light" id="refresh-data"><svg class="icon"><use href="#i-reset"/></svg>检查更新</button></div></section>
+  <section class="coastal-hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <span class="hero-pill"><span></span>与风同行，从了解开始 <i>WINDWATCH</i></span>
+      <p class="hero-kicker">A CLEARER VIEW. A CALMER MIND.</p>
+      <h1 id="hero-title">看见风的轨迹，<br><em>安心每一程。</em></h1>
+      <p class="hero-description">从一场风的起点，到它下一步的方向。<br>用清晰的实况与路径，让每一次关注，都更有依据。</p>
+      <div class="hero-actions"><a class="hero-primary" href="#overview">查看台风实况 <span>↘</span></a><a class="hero-secondary" href="#path-section">探索台风路径 <span>↗</span></a></div>
+      <p class="hero-byline">浙江省水利厅公开数据 <span>·</span> 每 15 分钟计划更新</p>
+    </div>
+    <div class="coastal-art" aria-hidden="true">
+      <svg viewBox="0 0 1440 470" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <linearGradient id="art-water" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d5e9ea" stop-opacity=".2"/><stop offset=".45" stop-color="#c9e0e0"/><stop offset="1" stop-color="#e1eae1"/></linearGradient>
+          <linearGradient id="art-dune" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e4e8d7"/><stop offset="1" stop-color="#f4f6ed"/></linearGradient>
+          <radialGradient id="art-glow"><stop stop-color="#fff9e8" stop-opacity=".85"/><stop offset="1" stop-color="#fff9e8" stop-opacity="0"/></radialGradient>
+          <linearGradient id="art-fade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="white" stop-opacity="0"/><stop offset=".9" stop-color="white"/></linearGradient>
+          <mask id="art-mask"><rect width="1440" height="470" fill="url(#art-fade)"/></mask>
+          <filter id="art-blur"><feGaussianBlur stdDeviation="18"/></filter>
+          <symbol id="reed" viewBox="0 0 110 300"><path d="M55 300Q58 170 38 40M56 300Q47 181 11 111M57 300Q69 200 93 137M55 289Q34 228 10 211M59 277Q81 236 106 222" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M38 80Q11 58 24 18Q45 41 38 80M16 126Q-1 104 3 80Q20 98 16 126M84 163Q75 132 105 106Q105 143 84 163" fill="currentColor" opacity=".65"/></symbol>
+          <symbol id="coast-flower" viewBox="0 0 100 260"><path d="M47 260Q65 156 47 39M55 197Q26 182 19 156M53 151Q80 133 86 111" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M51 201Q18 201 16 155Q48 164 51 201M54 154Q89 141 91 109Q63 114 54 154" fill="currentColor" opacity=".5"/><g transform="translate(47 37)" fill="#fffff4"><ellipse rx="6" ry="21" transform="rotate(10)"/><ellipse rx="6" ry="21" transform="rotate(60)"/><ellipse rx="6" ry="21" transform="rotate(115)"/><ellipse rx="6" ry="21" transform="rotate(165)"/></g><circle cx="47" cy="37" r="6" fill="#d1b87b"/></symbol>
+        </defs>
+        <ellipse cx="730" cy="250" rx="430" ry="155" fill="#d9e9df" opacity=".5" filter="url(#art-blur)"/>
+        <ellipse cx="855" cy="180" rx="280" ry="170" fill="url(#art-glow)"/>
+        <g mask="url(#art-mask)">
+          <path d="M0 152Q180 120 360 162T720 161T1080 146T1440 166V470H0Z" fill="url(#art-water)"/>
+          <path d="M0 200Q250 174 510 204T1040 200T1440 186M70 249Q270 219 575 249T1260 242M290 287Q580 259 860 286T1440 281M0 329Q310 298 610 324T1230 318" fill="none" stroke="#f8fcf5" stroke-width="2" opacity=".65"/>
+          <path d="M357 470Q475 418 650 400T935 338Q1080 284 1440 309V470Z" fill="#e9edde"/>
+          <path d="M0 367Q189 305 369 370T780 470H0Z" fill="url(#art-dune)"/>
+          <path d="M1440 338Q1260 304 1107 375T819 470H1440Z" fill="url(#art-dune)"/>
+          <path d="M0 398Q170 343 346 403M1004 432Q1206 347 1440 376" stroke="#c9d3bd" stroke-width="1.2" fill="none" opacity=".65"/>
+        </g>
+        <g fill="none" stroke="#7fa4a0" stroke-width="1.4" opacity=".5"><path d="M612 255c-77-29-63-92 11-96 73-4 91 50 53 75-42 28-93 2-79-27 13-28 57-24 66-5"/><path d="M665 143c75 13 132 77 88 132-31 39-104 43-152 16"/><path d="M541 233c-21-71 54-119 139-100"/></g>
+        <g fill="#8faaa5" opacity=".6"><path d="m1035 116 14-4 11 7-11-3Zm44-26 10-4 9 5-9-1ZM351 168l10-4 10 5-10-1Z"/></g>
+        <g color="#8ba087" opacity=".48"><use href="#reed" x="2" y="130" width="133" height="340"/><use href="#reed" x="116" y="205" width="103" height="264"/><use href="#reed" x="1270" y="162" width="120" height="310"/><use href="#reed" x="1365" y="95" width="120" height="375"/></g>
+        <g color="#7e957c" opacity=".65"><use href="#coast-flower" x="36" y="172" width="115" height="298"/><use href="#coast-flower" x="174" y="264" width="80" height="208"/><use href="#coast-flower" x="1190" y="245" width="90" height="230"/><use href="#coast-flower" x="1320" y="205" width="105" height="273"/></g>
+        <g color="#9fac8e" opacity=".72"><use href="#reed" x="-35" y="284" width="170" height="290"/><use href="#reed" x="239" y="358" width="80" height="174"/><use href="#reed" x="1117" y="364" width="80" height="171"/><use href="#reed" x="1384" y="309" width="95" height="230"/></g>
+      </svg>
+    </div>
+    <svg class="mobile-sprig mobile-sprig-left" viewBox="0 0 110 280" aria-hidden="true"><use href="#reed" x="-12" y="25" width="110" height="280"/><use href="#coast-flower" x="17" y="80" width="76" height="200"/></svg>
+    <svg class="mobile-sprig mobile-sprig-right" viewBox="0 0 110 280" aria-hidden="true"><use href="#reed" x="-7" y="-8" width="110" height="288"/><use href="#coast-flower" x="20" y="55" width="78" height="225"/></svg>
+    <div class="hero-footnote"><span>WIND · WATER · COAST</span><a href="#overview">向下，了解最新动向 <span>↓</span></a><span>让每一份关注，有迹可循。</span></div>
+  </section>
+  <div class="demo-banner live-banner" role="status" id="data-banner"><svg class="icon"><use href="#i-clock"/></svg><strong id="data-state">正在载入官方数据快照</strong><span id="data-state-note">本站为独立信息展示页面，非官方发布系统。</span><a href="https://typhoon.slt.zj.gov.cn/" target="_blank" rel="noopener noreferrer">浙江官方系统 ↗</a></div>
+  <div class="dashboard-content">
+    <section class="page-heading" id="overview"><div><p class="eyebrow">THE LATEST OBSERVATIONS <span>在这里，读懂台风</span></p><h2>此刻，风向何处<span class="title-dot">.</span></h2><p class="heading-description">实况、路径与机构预报，来源和时间清晰可查。</p></div><div class="heading-actions"><div class="scenario-clock"><svg class="icon"><use href="#i-clock"/></svg><span>最近成功抓取 · 北京时间<strong id="fetched-time">读取中</strong></span></div><button class="button button-light" id="refresh-data"><svg class="icon"><use href="#i-reset"/></svg>检查更新</button></div></section>
     <div class="storm-toolbar"><div class="storm-selector" id="storm-selector" role="group" aria-label="选择活跃台风"></div><span class="toolbar-note" id="storm-count">正在确认活跃台风</span></div>
     <div class="record-status" id="record-status" role="status">数据加载后，将在这里显示观测时间和数据状态。</div>
     <section class="stats-grid" aria-label="台风实况数据" aria-live="polite" aria-atomic="true">
@@ -53,7 +97,7 @@
     </div>
     <section class="bottom-grid"><article class="panel levels-panel"><div class="panel-heading"><div><p class="section-index">03 / READING THE DATA</p><h2>实况与预报分开阅读</h2></div><span class="soft-tag">保留来源口径</span></div><p class="secondary-text live-note">实线表示已经发布的观测记录，虚线表示所选机构在特定时间发布的未来路径。各机构风速统计口径可能不同，本站保留原数据，不混算或生成登陆结论。</p></article><article class="panel data-panel" id="data-notes"><div class="panel-heading"><div><p class="section-index">04 / DATA NOTES</p><h2>数据来源与更新</h2></div><span class="demo-outline">PUBLIC DATA</span></div><p>数据来自浙江省台风路径实时发布系统。GitHub Actions 计划每 15 分钟抓取并发布；任务可能排队或失败，以上方实际时间为准。</p><div class="data-note-footer"><a class="data-source" href="https://typhoon.slt.zj.gov.cn/" target="_blank" rel="noopener noreferrer">来源：浙江省水利厅 ↗</a><button class="text-button" id="about-data">查看说明 ↗</button></div></article></section>
     <div class="toast" id="toast" role="status" aria-live="polite"></div><noscript><p class="noscript-note">此页面需要启用 JavaScript。您也可以直接访问浙江省台风路径实时发布系统查看官方信息。</p></noscript>
-  </main>
+  </div></main>
   <footer class="site-footer"><span><strong>观风</strong> WINDWATCH <span class="footer-slash">/</span> 独立台风信息展示</span><span>数据来源：浙江省水利厅 · 请以官方最新发布为准</span></footer>
   <dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><span class="demo-outline">DATA PROVENANCE</span><button class="close-button" id="close-dialog" aria-label="关闭详情">×</button></div><h2 id="dialog-title">数据与更新说明</h2><div id="dialog-body"></div><button class="button dialog-confirm" id="confirm-dialog">知道了</button></dialog>
 </body></html>
