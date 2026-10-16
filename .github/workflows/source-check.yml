@@ -1,0 +1,36 @@
+name: Verify Zhejiang data source
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Verify official HTTPS data endpoints
+        run: |
+          node --input-type=module <<'NODE'
+          const base = 'https://typhoon.slt.zj.gov.cn/Api';
+          const year = new Date().getUTCFullYear();
+          const response = await fetch(`${base}/TyphoonList/${year}`, {signal:AbortSignal.timeout(30000)});
+          if (!response.ok) throw new Error(`List HTTP ${response.status}`);
+          const list = await response.json();
+          if (!Array.isArray(list)) throw new Error('Expected array');
+          console.log('List entries:', list.length);
+          const active = list.filter(item => String(item.isactive) === '1');
+          console.log('Active summaries:', JSON.stringify(active));
+          const selected = active[0] || [...list].sort((a,b)=>String(b.starttime).localeCompare(String(a.starttime)))[0];
+          if (selected) {
+            const result = await fetch(`${base}/TyphoonInfo/${selected.tfid}`, {signal:AbortSignal.timeout(30000)});
+            if (!result.ok) throw new Error(`Detail HTTP ${result.status}`);
+            const raw = await result.json();
+            console.log('Detail type:', Array.isArray(raw) ? 'array' : typeof raw);
+            const item = Array.isArray(raw) ? raw[0] : raw;
+            console.log('Detail top fields:', Object.keys(item));
+            console.log('Summary:', JSON.stringify({...item,points:undefined}));
+            console.log('First point:', JSON.stringify(item.points?.[0]));
+            console.log('Latest point:', JSON.stringify(item.points?.at(-1)));
+          }
+          NODE
